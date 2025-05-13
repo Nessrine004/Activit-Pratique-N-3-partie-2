@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
 </head>
 <body>
-  <div class="p-3">
+  <div layout:fragment="content1">
+
+  <div class="container mt-2">
       <div class="card">
           <div class="card-header">Liste Patients</div>
           <div class="card-body">
               <form method="get" th:action="@{index}">
                   <label>Keyword:</label>
-                  <input  type="text" name="Keyword" th:value="${keyword}">
+                  <input  type="text" name="keyword" th:value="${keyword}">
                   <button type="submit" class="btn btn-info">Chercher</button>
 
               </form>
@@ -29,7 +35,11 @@
                       <td th:text="${p.score}"></td>
                       <td>
                           <a onclick="javascript:return confirm('Etes vous sure?')"
-                             th:href="@{delete(id=${p.id}, keyword=${keyword}, pages=${currentPage})}" class="btn btn-danger">Delete</a>
+                             th:href="@{delete(id=${p.id}, keyword=${keyword}, page=${currentPage})}" class="btn btn-danger">Delete</a>
+                      </td>
+                      <td>
+                          <a
+                             th:href="@{editPatient(id=${p.id})}" class="btn btn-success">Edit</a>
                       </td>
 
                   </tr>
@@ -39,13 +49,13 @@
                   <li th:each="value,item:${pages}">
                       <a th:href="@{/index(page=${item.index},keyword=${keyword})}"
                          th:class="${currentPage==item.index?'btn btn-info ms-1':'btn btn-outline-info'}"
-                         th:text="${item.index}"></a>
+                         th:text="${1+item.index}"></a>
                   </li>
               </ul>
           </div>
       </div>
   </div>
 
-
+</div>
 </body>
 </html>
